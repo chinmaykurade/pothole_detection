@@ -5,11 +5,15 @@ Created on Tue Oct 13 09:12:44 2020
 @author: chinm
 """
 from flask import Flask,render_template,url_for,request,redirect,send_from_directory
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
+config = tf.compat.v1.ConfigProto(gpu_options = 
+                         tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.8)
+                        # device_count = {'GPU': 1}
+)
+config.gpu_options.allow_growth = True
+session = tf.compat.v1.Session(config=config)
+tf.compat.v1.keras.backend.set_session(session)
 import numpy as np
 from werkzeug.utils import secure_filename
 from tensorflow.keras.preprocessing import image
